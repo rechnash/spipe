@@ -36,6 +36,19 @@ curl https://spipe.herokuapp.com/tokens \
       -d source=tok_1KSsOtGnWsOieF5WCK1Surj7 \
       -d description="My First Test Charge (created for API docs)"
 
+// use as native Stipe proxy with ip rotation
+const $inst = axios.create({
+    baseURL: config.spipeHost,
+    proxy: `http://ACCESS_KEY:${config.spipeAccessKey}@${config.spipeHost}/nativeProxy`,
+    timeout: 80000,
+    headers: { 'Keep-Alive': 'true' }
+})
+
+const $res = axios({
+    url: '/token/charge' // create token and charge, returns charges result
+    baseURL: config.spipeHost,
+    data: {}
+})
 
 sk_test_51KSmlJGnWsOieF5WQf1WuGIsj7mUJ3n2VnjZX8zKDng3F1TiyIcuI3vbHI29kJ1L32Otnc8p84kmh1HadU7mGLnJ005BV3DxK9
 

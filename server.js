@@ -1,63 +1,85 @@
 require("dotenv").config()
-require('./apiDefine.js')
+require('./util.js').setup()
+require('./config.js').setup()
+require('./helpers.js').setup()
+require('./api/index.js').setup()
 
+const logger = require('morgan')
 const cors = require("cors")
 const express = require("express")
-const request = require("request")
-const exsProxy = require('express-http-proxy')
+const cookieParser = require('cookie-parser')
 const basicAuth = require('express-basic-auth')
+const router = require('./router.js')
+const { config, logPort } = require('./config.js')
 
-const { config, 
-          assignKey, 
-            logPort } = require("./config.js")
+// def app
+let app,
+    $e = process.env,
+    $g = global,
+    $c = config;
 
+// inits
 setapp()
 
+// initializator function
 async function setapp () {
 
-    console.log('\n   * Starting S-PIPE', 
-            '"' + process.env.NODE_ENV + '"', '\n')
+    console.log('\n   * Starting S-PIPE',
+            '"' + $e.NODE_ENV + '"', '\n')
+
+    await $g.setupProxyList()
     
-    const app = express()
+    console.log('   - global.proxyList', $g.proxyList)
+    console.log('   - global.proxyListSV', $g.proxyListSV, '\n')
 
-    await global.setupProxyList()
+    $g.setupAccountsMap()
     
-    console.log('   - global.proxyList', global.proxyList)
-    console.log('   - global.proxyListSV', global.proxyListSV, '\n')
+    console.log('   - global.accountsMap', $g.accountsMap, '\n')
+    
+    // init app instance
+    app = express();
 
-    global.setupAccountsMap()
-    console.log('   - global.accountsMap', global.accountsMap, '\n')
+    // declare some setttings
+    app.set('trust proxy', true)
 
+    // global cors middleare
+    app.use(cors())
 
-    app.use(cors(),
-            basicAuth({
-                users: { 'ACCESS_KEY': config.accessKey }
-                    })).use("/", async (req, res) => {
-      
-      // Pipe is through request, this will just redirect
-      // everything from the api to your own server at localhost.
-      // It will also pipe your queries in the url
+    // other stanard middles
+    app.use(logger('dev'))
+    app.use(express.json())
+    app.use(express.urlencoded({ extended: false }))
+    app.use(cookieParser())
 
-      let $px = global.pickOneProxy(req.url),
-          $ssk = global.pickOneSkey(req.url),
-          $ua = global.pickOneUA(req.url);
+    // service access token auth middleware
+    // auth btw server > server...
+    // Stripe spipe wrapper Rest API with ip rotation
+    app.use('/service', 
+            basicAuth($c.authData), 
+                    router)
 
-      console.log('\n', '$px', $px)
-      console.log('$ssk', $ssk)
-      console.log('$ua', $ua, '\n')
+    // Stripe Native API proxy with ip rotation
+    app.use('/proxy', 
+                basicAuth($c.authData), 
+                    $g.proxyNativeControl)
 
-      req.pipe(request({
-          uri: config.apiUrl + req.url,
-          proxy: $px,
-          headers: {
-            'Keep-Alive': 'true',
-            'User-Agent': $ua,
-            'Authorization': 'Bearer ' + $ssk
-          }
-      })).pipe(res, { end: true })
-
+    app.get('/', (req, res) => {
+        res.status(200)
+                .send('OK')
+                    .end()
     })
 
     //Start the server by listening on a port
-    app.listen(config.port, logPort(config.port))
+    app.listen(config.port, port => {
+
+        console.log('   ...app was succesfully setup!\n')
+
+        if ($e.NODE_ENV === 'deployment') {
+            if ($e.DEP_LOG === 'false') {
+                console.log = (...args) => {}
+            }
+        }
+
+        logPort(config.port)(port)
+    })
 }
