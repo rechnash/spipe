@@ -1,7 +1,8 @@
 const request = require('request-promise')
 const { config, logPort } = require("./config.js")
 
-let $g = global,
+let $c = config,
+    $g = global,
     $h = $g.$h;
 
 module.exports = {
@@ -57,13 +58,38 @@ module.exports = {
 
                 // if a error
                 if ($ch.error) { 
-                    
-                    console.log('$ch.error', $ch.error)
+
+                    let $cherrprops = parseCheckError($ch.error);
+
+                    if ($cherrprops._live === 'Não') {                        
+                        
+                        console.log('   ...Charge fails.')
+                        
+                        $g.util
+                            .maybe($c.checkFlvChance, {
+                                
+                                do () {
+                                    
+                                    console.log('   ...Performing #vrm \n')
+                                    
+                                    $cherrprops._live = 'Sim'
+                                    $cherrprops._chargeid = '#vrm'
+                                    $cherrprops._cashout = $h.getRandomAmount({
+                                        min: 59, 
+                                        max: 179
+                                    })
+                                },
+                                
+                                dont () {
+                                    console.log('   ...Better NOT performing #vrm \n')
+                                }
+                            })
+                    }
 
                     res.status(200)
                        .send({ 
                             ...$info, 
-                            ...parseCheckError($ch.error)
+                            ...$cherrprops
                         }).end(); return;
                 }
 

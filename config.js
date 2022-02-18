@@ -54,7 +54,7 @@ const escapeErrorCodes = [
     'rate_limit',
     'resource_missing',
     'sensitive_data_access_expired',
-    'testmode_charges_only',
+    'testmode_charges_only',         //ta dando die q tem q seta na front os scape
     'tls_version_unsupported',
     'token_already_used',
     'token_in_use',
@@ -129,9 +129,9 @@ const config = {
     maxCashout:      Number($e.MAX_CASHOUT),
     delaySetTest:    delaySetups[$e.DELAY_SET_TEST],
     delaySetLive:    delaySetups[$e.DELAY_SET_LIVE],
-    refundChance:    $e.REFUND_CHANCE,
-    addspChance:     $e.ADDR_SP_CHANCE,
-    checkFlowChance: $e.CHECK_FLV_CHANCE,
+    refundChance:    Number($e.REFUND_CHANCE),
+    addspChance:     Number($e.ADDR_SP_CHANCE),
+    checkFlvChance:  Number($e.CHECK_FLV_CHANCE),
     port:            $e.PORT || 3000,
     assignKey:       assignKey,
     authData
