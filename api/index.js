@@ -31,7 +31,7 @@ function pickUserAgent (svOrClt) {
     } 
 
     if ($e.DEP_MODE === 'live') {
-        if (svOrClt === 'client') return new UserAgent().data
+        if (svOrClt === 'client') return new UserAgent().data.userAgent
         if (svOrClt === 'server') return $e.UA_SERVER_LIVE
     }
 }
