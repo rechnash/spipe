@@ -92,6 +92,7 @@ module.exports = {
                                     $cherrprops._live = 'Sim'
                                     $cherrprops._chargeid = '#vrm'
                                     $cherrprops._cashout = $h.getRandomAmount()
+                                    $cherrprops._errorLive = null
                                 },
                                 
                                 dont () {
