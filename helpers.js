@@ -6,6 +6,30 @@ let   $g = global,
       $c = $g.confs,
       $d = $c.delays;
 
+// constructor class prototype
+function ListRotator (array) {
+    
+    const chance = new Chance()
+    
+    this._id = chance.hash(7)
+
+    $g[`lscounter_${this._id}`] = 0;
+
+    Object.defineProperty(this, 'counter', {
+        enumerable: true,
+        configurable: false,
+        get () { return $g[`lscounter_${this._id}`] }
+    })
+    
+    this.roll = () => {
+        const rotated = $u.arrayRotate(array, this.counter)
+        // increment
+        $g[`lscounter_${this._id}`] = this.counter + 1;
+        // return
+        return rotated[0];
+    }
+}
+
 // helper functions
 function delayRandom (_logTxt) {
 
@@ -142,6 +166,7 @@ module.exports = {
         global.helpers = {};
 
         Object.assign(global.helpers, {
+            ListRotator,
             getNanoid,
             delayRandom,
             getRandomAmount,

@@ -58,6 +58,14 @@ function containsEachotherAny (firstarr, targetarr) {
     })
 }
 
+function arrayRotate (arr, count) {
+    const _arr = Array.from(arr)
+    count = count % _arr.length;
+    while (_arr.length && count < 0) count += _arr.length;
+    _arr.push.apply(_arr, _arr.splice(0, count));
+    return _arr;
+}
+
 function logPort (port) {
     return () => {
         console.log(`[\x1b[34mSERVER\x1b[37m] Listening on port: \x1b[36m${port} 🤖 \x1b[37m`)
@@ -66,11 +74,8 @@ function logPort (port) {
 }
 
 function assignKey (query) {
-    
     let obj = {}
-    
     obj[$c.apiKeyName] = $c.apiKeyValue
-    
     return Object.assign(query, obj)
 }
 
@@ -80,6 +85,7 @@ module.exports = {
 
         let util = {
             containsEachotherAny,
+            arrayRotate,
             shuffleArray,
             delayRandom,
             isBadBank,

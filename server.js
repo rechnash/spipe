@@ -52,13 +52,14 @@ async function setapp () {
     app.use(express.json())
     app.use(express.urlencoded({ extended: false }))
     app.use(cookieParser())
-
+    
     // service access token auth middleware
     // auth btw server > server...
     // Stripe spipe wrapper Rest API with ip rotation
     app.use('/service', 
-            basicAuth($c.auth), 
-                    router)
+            basicAuth($c.auth),
+            serviceDelayMiddle, 
+                router)
 
     // Stripe Native API proxy with ip rotation
     app.use('/proxy', 
@@ -70,6 +71,18 @@ async function setapp () {
                 .send('OK')
                     .end()
     })
+
+    async function serviceDelayMiddle (req, res, next) {
+        
+        let $dsc = $c.delays.greq;
+        
+        console.log('   ...running serviceDelayMiddle()')
+        console.log(`   ...awaiting $c.delays.greq`, $dsc)
+        
+        await new Promise(resolve => setTimeout(resolve, $dsc))
+        
+        next();
+    }
 
     //Start the server by listening on a port
     app.listen($c.port, port => {

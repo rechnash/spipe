@@ -4,7 +4,11 @@ const UserAgent = require('user-agents')
 let $e = process.env,
     $g = global,
     $c = $g.confs,
+    $u = $g.util,
+    $h = $g.helpers,
     $plist = $g.plist;
+
+$g.clientPlistRotator = new $h.ListRotator($plist.client)
 
 function pickHttpProxy (svOrClt) {
     
@@ -13,7 +17,9 @@ function pickHttpProxy (svOrClt) {
     let proxy;
 
     if (svOrClt === 'client') {
-        proxy = chance.pickone($plist.client)
+        console.log('   $g.clientPlistRotator.counter:', 
+                            $g.clientPlistRotator.counter)
+        proxy = $g.clientPlistRotator.roll();
     }
 
     if (svOrClt === 'server') {
