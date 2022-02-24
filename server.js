@@ -1,6 +1,6 @@
 require("dotenv").config()
 require('./util.js').setup()
-require('./config.js').setup()
+require('./setting/index.js').setup()
 require('./helpers.js').setup()
 require('./api/index.js').setup()
 
@@ -10,13 +10,15 @@ const express = require("express")
 const cookieParser = require('cookie-parser')
 const basicAuth = require('express-basic-auth')
 const router = require('./router.js')
-const { config, logPort } = require('./config.js')
 
 // def app
 let app,
     $e = process.env,
     $g = global,
-    $c = config;
+    $c = $g.confs,
+    $u = $g.util,
+    $emap = $g.emap,
+    $plist = $g.plist;
 
 // inits
 setapp()
@@ -24,17 +26,17 @@ setapp()
 // initializator function
 async function setapp () {
 
-    console.log('\n   * Starting S-PIPE',
-            '"' + $e.NODE_ENV + '"', '\n')
+    console.log('\n   * Starting S-PIPE \n')
 
-    await $g.setupProxyList()
-    
-    console.log('   - global.proxyList', $g.proxyList)
-    console.log('   - global.proxyListSV', $g.proxyListSV, '\n')
+    console.log('   - $e.NODE_ENV', `"${$e.NODE_ENV}"`)
+    console.log('   - $e.DEP_MODE', `"${$e.DEP_MODE}"`)
+    console.log('   - $c.delays.name', `"${$c.delays.name}"`, '\n')
 
-    $g.setupAccountsMap()
+    console.log('   - $plist.client', $plist.client)
+    console.log('\n   - $plist.server', 
+        $plist.server, '\n', 
+        `       ...expects reffered '${$e.NODE_ENV}' proxy ip.`, '\n')
     
-    console.log('   - global.accountsMap', $g.accountsMap, '\n')
     
     // init app instance
     app = express();
@@ -55,12 +57,12 @@ async function setapp () {
     // auth btw server > server...
     // Stripe spipe wrapper Rest API with ip rotation
     app.use('/service', 
-            basicAuth($c.authData), 
+            basicAuth($c.auth), 
                     router)
 
     // Stripe Native API proxy with ip rotation
     app.use('/proxy', 
-                basicAuth($c.authData), 
+                basicAuth($c.auth), 
                     $g.proxyNativeControl)
 
     app.get('/', (req, res) => {
@@ -70,7 +72,7 @@ async function setapp () {
     })
 
     //Start the server by listening on a port
-    app.listen(config.port, port => {
+    app.listen($c.port, port => {
 
         console.log('   ...app was succesfully setup!\n')
 
@@ -80,6 +82,6 @@ async function setapp () {
             }
         }
 
-        logPort(config.port)(port)
+        $u.logPort($c.port)(port)
     })
 }

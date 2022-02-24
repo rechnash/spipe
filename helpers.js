@@ -1,11 +1,16 @@
+const Chance = require('chance')
 const { customAlphabet } = require('nanoid')
-const config = require('./config.js')
+
+let   $g = global,
+      $u = $g.util,
+      $c = $g.confs,
+      $d = $c.delays;
 
 // helper functions
-function delayRandom (_logTxt, delay) {
+function delayRandom (_logTxt) {
 
-    const min = delay.min,
-          max = delay.max
+    const min = $d.min,
+          max = $d.max
 
     let _rms = Math.floor(Math.random() * (max - min + 1)) + min;
 
@@ -14,10 +19,10 @@ function delayRandom (_logTxt, delay) {
     return new Promise(resolve => setTimeout(resolve, _rms))
 }
 
-function getRandomAmount (scale) {
+function getRandomAmount () {
     
-    const min = scale.min,
-          max = scale.max;
+    const min = $c.minCashout,
+          max = $c.maxCashout;
 
     let _randomBtw5e9 = Math.floor(
             Math.random() * (max - min + 1)) + min
@@ -26,88 +31,94 @@ function getRandomAmount (scale) {
     return Math.round(_randomBtw5e9 / 10) * 10
 }
 
+function getRandomRating () {
+    const chance = new Chance(),
+          _base = [10,10,10,9,9,8];
+    return chance.pickone(_base);
+}
+
 function getRandomDescription () {
 
     let _companys = {
         0: {
-            id: 'oijeiwj90fj3j03',
+            id: '23984hhr',
             type: 'purchase',
-            transMockId: getNanoid('abcsde-123456', 15, 'SUID')
+            transMockId: getNanoid('abcsde123456', 15)
         },
         1: {
-            id: '439j0fj03j234444',
+            id: 'dh873ht74',
             type: 'other',
-            transMockId: getNanoid('ZALSOMKYX12345689', 15, '001')
+            transMockId: getNanoid('ZALSOMKYX12345689', 15)
         },
         2: {
-            id: '123448shdf8a9h8e',
+            id: '7643gf3fr',
             type: 'subscription',
-            transMockId: getNanoid('ABCDEF2345689', 15, 'SBN')
+            transMockId: getNanoid('ABCDEF2345689', 15)
         },
         3: {
-            id: 'bc643679c043mbc',
+            id: 'ld40k30j4',
             type: 'other',
             transMockId: getNanoid('afdbe123456789', 15)
         },
         4: {
-            id: '8f43h8pif30902f',
+            id: '2873hehhd',
             type: 'other',
-            transMockId: getNanoid('cd41294a-afb0-11df-bc9b-00241dd75637', 15)
+            transMockId: getNanoid('cd41294a1dd75637', 15)
         },
         5: {
-            id: '98d903jd9404442',
+            id: '03k4frk4f',
             type: 'other',
-            transMockId: getNanoid('afdbe123456789', 15, '_')
+            transMockId: getNanoid('afdbe123456789', 15)
         },
         6: {
-            id: '93f938j4f93f093',
+            id: 'okek03k04',
             type: 'other',
-            transMockId: getNanoid('cd41294a-afb0-11df-bc9b-00241dd75637', 15)
+            transMockId: getNanoid('00241dd75637', 15)
         },
         7: {
-            id: '9j4093j4f3jfa04',
+            id: '872gf8dj0',
             type: 'other',
             transMockId: getNanoid('afdbe123456789', 15)
         },
         8: {
-            id: 'k9d209jf2fuh9ea',
+            id: 'nbu9898d3',
             type: 'other',
-            transMockId: getNanoid('afdbe-123456789', 15, '009')
+            transMockId: getNanoid('afdbe!123456789', 15)
         },
         9: {
-            id: 'qqw302d23d3d23f',
+            id: 'qwqwe90d9',
             type: 'subscription',
-            transMockId: getNanoid('afdbe123456789', 15, 'SID:')
+            transMockId: getNanoid('afdbe123456789', 15)
         },
         10: {
-            id: 'dd4f4fffjj2092j',
+            id: 'd45f4fd45',
             type: 'purchase',
-            transMockId: getNanoid('afdbe123456789', 15, '', '|CT')
+            transMockId: getNanoid('afdbe123456789', 15)
         },
         11: {
-            id: 'j23443f42r23jf9',
+            id: 'j4443jf9',
             type: 'other',
-            transMockId: getNanoid('cd41294a-afb0-11df-bc9b-00241dd75637', 36)
+            transMockId: getNanoid('afb011dfbc9b5637', 15)
         },
         12: {
-            id: '34343f43ff3f32h',
+            id: 'f503f3qq',
             type: 'other',
-            transMockId: getNanoid('abcsde-123456', 15, 'SUID')
+            transMockId: getNanoid('abcsde-123456', 15)
         },
         13: {
-            id: 'd892j3938hh84fh',
+            id: 'hf9834ee',
             type: 'purchase',
             transMockId: getNanoid('afdbe123456789', 15)
         },
         14: {
-            id: '9828h3d928hd893',
+            id: 'jf934jf0',
             type: 'other',
-            transMockId: getNanoid('afdbe123456789', 24)
+            transMockId: getNanoid('afdbe123456789', 15)
         },
         15: {
-            id: '98hp9apd9h8f398h',
+            id: 'g509gld4',
             type: 'other',
-            transMockId: getNanoid('cd41294a-afb0-11df-bc9b-00241dd75637', 36)
+            transMockId: getNanoid('zxcvbnm09874644ew', 15)
         }
     };
 
@@ -116,7 +127,7 @@ function getRandomDescription () {
 
     let _com = _companys[_comIndex]
 
-    return `T$${_com.transMockId} C$${_com.id} $TY${_com.type}`
+    return `&trans=${_com.transMockId}&vendor:${_com.id}&source=${_com.type}`
 }
 
 function getNanoid (str, leng, pre = '', suf = '') {
@@ -128,12 +139,13 @@ module.exports = {
 
     setup () {
 
-        global.$h = {};
+        global.helpers = {};
 
-        Object.assign(global.$h, {
+        Object.assign(global.helpers, {
             getNanoid,
             delayRandom,
             getRandomAmount,
+            getRandomRating,
             getRandomDescription
         })
     }

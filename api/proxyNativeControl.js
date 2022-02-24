@@ -1,5 +1,8 @@
 const request = require("request")
-const { config } = require("../config.js")
+
+let $e = process.env,
+    $g = global,
+    $c = $g.confs;
 
 async function proxyNativeControl (req, res) {
 

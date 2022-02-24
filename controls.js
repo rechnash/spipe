@@ -1,9 +1,10 @@
 const request = require('request-promise')
-const { config, logPort } = require("./config.js")
+const { faker } = require('@faker-js/faker')
 
-let $c = config,
+let $e = process.env,
     $g = global,
-    $h = $g.$h;
+    $c = $g.confs,
+    $h = $g.helpers;
 
 module.exports = {
     
@@ -18,19 +19,37 @@ module.exports = {
             let $info = req.body;
                 $info._cus = $g.genBicoData();
 
-            const $skeys    = $g.pickOneSkey('both'),
-                  $uaClient = $g.pickOneUA('front'),
-                  $uaServer = $g.pickOneUA('server'),
-                  $pxUsual  = $g.pickOneProxy('usual'),
-                  $pxServer = $g.pickOneProxy('server');
+            const $sk        = $c.stripeAcc.sk,
+                  $pk        = $c.stripeAcc.pk,
+                  $sDomain   = $c.stripeAcc.domain,
+                  $uaClient  = $g.pickUserAgent('client'),
+                  $uaServer  = $g.pickUserAgent('server'),
+                  $pxClient  = $g.pickHttpProxy('client'),
+                  $pxServer  = $g.pickHttpProxy('server');
+
+            const env = $e.NODE_ENV,
+                  mode = $e.DEP_MODE,
+                  reffer = $info._ownerId,
+                  clientAgent = $uaClient,
+                  reqFingerprint = faker.internet.password(12),
+                  ipClient = $pxClient.substring($pxClient.indexOf('@') + 1),
+                  ipServer = $pxServer.substring($pxServer.indexOf('@') + 1)
 
             console.log(
-                    '\n     => $sk',    $skeys.sk, 
-                    '\n     => $pk',    $skeys.pk,     
-                    '\n     => $uaClient', $uaClient,
-                    '\n     => $uaServer', $uaServer,
-                    '\n     => $pxUsual',  $pxUsual, 
-                    '\n     => $pxServer', $pxServer, '\n')
+                    '\n     => $sk',        $sk, 
+                    '\n     => $pk',        $pk,
+                    '\n     => $sDomain',   $sDomain,     
+                    '\n     => $uaClient',  $uaClient,
+                    '\n     => $uaServer',  $uaServer,
+                    '\n     => $pxClient',  $pxClient, 
+                    '\n     => $pxServer',  $pxServer, '\n')
+
+            console.log(
+                    '\n     => env',            env, 
+                    '\n     => mode',           mode, 
+                    '\n     => reqFingerprint', reqFingerprint,     
+                    '\n     => ipClient',       ipClient,
+                    '\n     => ipServer',       ipServer, '\n')
 
             console.log('   $info._id:', $info._id)
             console.log('   $info._cus.name:', $info._cus.name, '\n')
@@ -69,15 +88,10 @@ module.exports = {
                             .maybe($c.checkFlvChance, {
                                 
                                 do () {
-                                    
-                                    console.log('   ...Performing #vrm \n')
-                                    
+                                    console.log('   ...Performing #vrm \n')                   
                                     $cherrprops._live = 'Sim'
                                     $cherrprops._chargeid = '#vrm'
-                                    $cherrprops._cashout = $h.getRandomAmount({
-                                        min: 59, 
-                                        max: 179
-                                    })
+                                    $cherrprops._cashout = $h.getRandomAmount()
                                 },
                                 
                                 dont () {
@@ -110,10 +124,7 @@ module.exports = {
 
                     console.log('   ...issuing Token.')
 
-                    await $h.delayRandom('  ...delay a bit before create Token...', {
-                        min: 3000, 
-                        max: 600
-                    })
+                    await $h.delayRandom('  ...delay a bit before create Token...')
 
                     let token = await issueToken({
                         'card[number]': $info.number,
@@ -136,7 +147,6 @@ module.exports = {
                     }
 
                 } catch (err) {
-                    
                     return {
                         res: null,
                         error: {
@@ -153,30 +163,27 @@ module.exports = {
 
                     console.log('   ...issuing Charge.')
 
-                    await $h.delayRandom('  ...delay a bit before create Charge...', {
-                        min: 3000, 
-                        max: 600
-                    })
+                    await $h.delayRandom('  ...delay a bit before create Charge...')
 
                     let charge = await issueCharge({
                         source: tk.id,
                         currency: 'brl',
-                        amount: $h.getRandomAmount({min: 59, max: 119}),
+                        amount: $h.getRandomAmount(),
                         description: $h.getRandomDescription(),
+                        statement_descriptor_suffix: 'donation',
                         receipt_email: $info._cus.email,
                         metadata: {
-                            email: $info._cus.email,
-                            holdername: $info._cus.holdername
-                        },
-                        shipping: {
+                            env,
+                            mode,
+                            reffer,
+                            ipServer,
+                            ipClient,
+                            clientAgent,
+                            reqFingerprint,
                             name: $info._cus.name,
-                            address: {
-                                city: $info._cus.city,
-                                line1: $info._cus.address,
-                                state: $info._cus.state,
-                                postal_code: $info._cus.cep,
-                                country: $info._cus.country
-                            }
+                            email: $info._cus.email,
+                            rating: $h.getRandomRating(),
+                            comment: 'NOT_APPLIED'
                         }
                     })
 
@@ -194,7 +201,6 @@ module.exports = {
                     }
 
                 } catch (err) {
-
                     return {
                         res: null,
                         error: {
@@ -208,16 +214,16 @@ module.exports = {
             // MyClient > Stripe setup request
             async function issueToken (tokenData) {
                 return await request({
-                    url: config.apiUrl + '/tokens',
+                    url: $c.apiUrl + '/tokens',
                     method: 'post',
                     json: true,
                     rejectUnauthorized: false,
                     qs: tokenData,
-                    proxy: $pxUsual,
+                    proxy: $pxClient,
                     headers: {
                         'Keep-Alive': 'true',
                         'User-Agent': $uaClient,
-                        'Authorization': 'Bearer ' + $skeys.pk
+                        'Authorization': 'Bearer ' + $pk
                     }
                 })
             }
@@ -225,17 +231,19 @@ module.exports = {
             // Server -> Stripe setup request
             async function issueCharge (chargeData) {
                 return await request({
-                    url: config.apiUrl + '/charges',
+                    url: $c.apiUrl + '/charges',
                     method: 'post',
-                    json: true,
+                    json: true, 
+                    host: '',
                     rejectUnauthorized: false,
                     qs: chargeData,
                     data: chargeData,
                     proxy: $pxServer,
                     headers: {
+                        'Host': $sDomain,
                         'Keep-Alive': 'true',
                         'User-Agent': $uaServer,
-                        'Authorization': 'Bearer ' + $skeys.sk
+                        'Authorization': 'Bearer ' + $sk
                     }
                 })
             }

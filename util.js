@@ -1,5 +1,7 @@
 const Chance = require('chance')
-const config = require('./config.js')
+
+let $g = global,
+    $c = $g.confs;
 
 function shuffleArray (array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -29,7 +31,7 @@ function maybe (_chance, ops) {
 
 function isBadBank (bank) {
     
-    let isbadBank = config.blacklistBanks.some(_bank => { 
+    let isbadBank = $c.blacklistBanks.some(_bank => { 
         return bank.includes(_bank)
     })
 
@@ -56,16 +58,36 @@ function containsEachotherAny (firstarr, targetarr) {
     })
 }
 
+function logPort (port) {
+    return () => {
+        console.log(`[\x1b[34mSERVER\x1b[37m] Listening on port: \x1b[36m${port} 🤖 \x1b[37m`)
+        return console.log('...', '\n')
+    }
+}
+
+function assignKey (query) {
+    
+    let obj = {}
+    
+    obj[$c.apiKeyName] = $c.apiKeyValue
+    
+    return Object.assign(query, obj)
+}
+
 module.exports = {
     
     setup () {
 
-        global.util = {
+        let util = {
             containsEachotherAny,
             shuffleArray,
             delayRandom,
             isBadBank,
-            maybe
+            maybe,
+            logPort,
+            assignKey
         }
+
+        Object.assign(global, { util })
     }
 }

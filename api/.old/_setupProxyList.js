@@ -1,21 +1,27 @@
 const axios = require('axios')
 
 let $e = process.env,
-    $g = global;
+    $g = global,
+    $p = $g.$p;
 
 async function setupProxyList () {
 
     return new Promise((resolve, reject) => {
 
         console.log('   ...fetching plist.')
+        console.log('$e.PXSV_PLIST_URL', $e.PXSV_PLIST_URL)
+
+        global.proxyListClient = $p.clientSide
         
         axios({
 
             method: 'get',
-            url: $e.RSOCK_PLIST_URL,
+            url: $e.PXSV_PLIST_URL,
+            headers: { 'Authorization': $e.PXSV_KEY }
         
         }).then(res => {
-            
+
+            console.log('   > res.data', res, '\n')
             console.log('   - plist fetched.')
 
             let toarr = res.data.split('\n')
@@ -33,6 +39,11 @@ async function setupProxyList () {
 
             $g.proxyList = proxylist;
             $g.proxyListSV = proxylistsv;
+
+            if ($g.proxyList.length === 0 &&
+                    $g.proxyListSV.length === 0) {
+                throw Error('Some proxy list empty')
+            }
 
             resolve(true)
 

@@ -1,5 +1,5 @@
 let $g = global,
-    $emap = $g.$emap;
+    $emap = $g.emap;
 
 function parseCheckError (error, ops) {
 
@@ -30,21 +30,27 @@ function parseCheckError (error, ops) {
                 _live: 'Sim',
                 _cashout: 0,
                 _chargeid: null,
-                _errorLive: eobj.decline_code || eobj.code
+                _errorLive:    eobj.decline_code 
+                            || eobj.code 
+                            || eobj.type
             },
 
             'maybe': {
                 _live: 'Talvez',
                 _cashout: 'Não',
                 _chargeid: null,
-                _errorLive: eobj.decline_code || eobj.code
+                _errorLive:    eobj.decline_code 
+                            || eobj.code 
+                            || eobj.type
             },
 
             'dead': {
                 _live: 'Não',
                 _cashout: 'Não',
                 _chargeid: null,
-                _errorLive: eobj.decline_code || eobj.code
+                _errorLive:    eobj.decline_code 
+                            || eobj.code 
+                            || eobj.type
             },
 
             'escape': {
@@ -52,7 +58,9 @@ function parseCheckError (error, ops) {
                 _cashout: 'Não',
                 _chargeid: null,
                 _errorLive: null,
-                _errorEscape: eobj.decline_code || eobj.code
+                _errorEscape:    eobj.decline_code 
+                              || eobj.code 
+                              || eobj.type
             }
         }
 
@@ -62,8 +70,9 @@ function parseCheckError (error, ops) {
     function checkErrorObject (errObj) {
 
         const errvals = [
-            errObj.decline_code || 'undefined',
-            errObj.code || 'undefined'
+            errObj.type         || 'undefined',
+            errObj.code         || 'undefined',
+            errObj.decline_code || 'undefined'
         ]
 
         // are live altough no cashout

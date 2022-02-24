@@ -1,0 +1,12 @@
+transaction_not_allowed
+do_not_honor
+incorrect_zip
+insufficient_funds
+card_velocity_exceeded
+account_country_invalid_address
+amount_too_small
+invalid_amount
+balance_insufficient
+email_invalid
+incorrect_address
+postal_code_invalid

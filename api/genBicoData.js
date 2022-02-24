@@ -1,8 +1,8 @@
 const { faker } = require('@faker-js/faker')
 const { generate } = require('gerador-validador-cpf')
-const config = require('../config.js')
 
-let $g = global;
+let $g = global,
+    $c = $g.confs;
 
 faker.locale = 'pt_BR'
 
@@ -25,7 +25,7 @@ function genBicoData () {
     // set SP address
     // it matches more in BR
     $g.util
-        .maybe(config.chanceAddrsp, {
+        .maybe($c.chanceAddrsp, {
 
             do () {
                 console.log('   ...forcing SP address.')
@@ -48,7 +48,7 @@ function genBicoData () {
         _gen: true,
         holdername: name.toUpperCase(),
         email: email.toLowerCase(),
-        country: 'Brazil',
+        country: 'BR',
         cpf,
         name,
         cep,
