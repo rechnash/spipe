@@ -18,7 +18,7 @@ function pickHttpProxy (svOrClt) {
 
     if (svOrClt === 'client') {
         console.log('   $g.clientPlistRotator.counter:', 
-                            $g.clientPlistRotator.counter)
+                        $g.clientPlistRotator.counter)
         proxy = $g.clientPlistRotator.roll();
     }
 

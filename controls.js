@@ -29,7 +29,8 @@ module.exports = {
 
             const env = $e.NODE_ENV,
                   mode = $e.DEP_MODE,
-                  reffer = $info._ownerId,
+                  owner = $info._ownerId,
+                  docObj = $info._id,
                   clientAgent = $uaClient,
                   reqFingerprint = faker.internet.password(12),
                   ipClient = $pxClient.substring($pxClient.indexOf('@') + 1),
@@ -176,7 +177,8 @@ module.exports = {
                         metadata: {
                             env,
                             mode,
-                            reffer,
+                            owner,
+                            docObj,
                             ipServer,
                             ipClient,
                             clientAgent,
