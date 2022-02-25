@@ -17,7 +17,8 @@ let plistFiles = [
     `liveClients`, 
     `liveServers`, 
     `testClients`, 
-    `testServers`
+    `testServers`,
+    'devServers'
 ]
 
 emapFiles.forEach(fln => {
@@ -54,7 +55,7 @@ if ($e.DEP_MODE === 'live') {
 }
 
 if ($e.NODE_ENV === 'development') {
-    $module.plist.server = ['213.156.143.163:1490']
+    $module.plist.server = plist.devServers
 }
 
 $u.shuffleArray($module.plist.client)

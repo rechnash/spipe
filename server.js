@@ -9,6 +9,7 @@ const cors = require("cors")
 const express = require("express")
 const cookieParser = require('cookie-parser')
 const basicAuth = require('express-basic-auth')
+const rateLimit = require('express-rate-limit')
 const router = require('./router.js')
 
 // def app
@@ -29,14 +30,18 @@ async function setapp () {
     console.log('\n   * Starting S-PIPE \n')
 
     console.log('   - $e.NODE_ENV', `"${$e.NODE_ENV}"`)
-    console.log('   - $e.DEP_MODE', `"${$e.DEP_MODE}"`)
-    console.log('   - $c.delays.name', `"${$c.delays.name}"`, '\n')
+    console.log('   - $e.DEP_MODE', `"${$e.DEP_MODE}"`, '\n')
+    console.log('   - $c.delays.rate', `"${$c.delays.rate}"`)
+    console.log('   - $c.rateLimit.max', `"${$c.rateLimit.max}" reqs per ip.`)
+    console.log('   - $c.rateLimit.windowMs', 
+                        `"${$c.rateLimit.windowMs}" ms.`, 
+                        `"${$e.RATE_LIMIT_MS}" min.`, '\n')
+
 
     console.log('   - $plist.client', $plist.client)
     console.log('\n   - $plist.server', 
         $plist.server, '\n', 
         `       ...expects reffered '${$e.NODE_ENV}' proxy ip.`, '\n')
-    
     
     // init app instance
     app = express();
@@ -58,8 +63,9 @@ async function setapp () {
     // Stripe spipe wrapper Rest API with ip rotation
     app.use('/service', 
             basicAuth($c.auth),
-            serviceDelayMiddle, 
-                router)
+                rateLimit($c.rateLimit),
+                    delayMiddle,
+                        router)
 
     // Stripe Native API proxy with ip rotation
     app.use('/proxy', 
@@ -72,7 +78,7 @@ async function setapp () {
                     .end()
     })
 
-    async function serviceDelayMiddle (req, res, next) {
+    async function delayMiddle (req, res, next) {
         
         let $dsc = $c.delays.greq;
         
