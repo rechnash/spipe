@@ -9,7 +9,6 @@ const cors = require("cors")
 const express = require("express")
 const cookieParser = require('cookie-parser')
 const basicAuth = require('express-basic-auth')
-const rateLimit = require('express-rate-limit')
 const router = require('./router.js')
 
 // def app
@@ -31,13 +30,8 @@ async function setapp () {
 
     console.log('   - $e.NODE_ENV', `"${$e.NODE_ENV}"`)
     console.log('   - $e.DEP_MODE', `"${$e.DEP_MODE}"`, '\n')
+
     console.log('   - $c.delays.rate', `"${$c.delays.rate}"`)
-    console.log('   - $c.rateLimit.max', `"${$c.rateLimit.max}" reqs per ip.`)
-    console.log('   - $c.rateLimit.windowMs', 
-                        `"${$c.rateLimit.windowMs}" ms.`, 
-                        `"${$e.RATE_LIMIT_MS}" min.`, '\n')
-
-
     console.log('   - $plist.client', $plist.client)
     console.log('\n   - $plist.server', 
         $plist.server, '\n', 
@@ -63,9 +57,8 @@ async function setapp () {
     // Stripe spipe wrapper Rest API with ip rotation
     app.use('/service', 
             basicAuth($c.auth),
-                rateLimit($c.rateLimit),
                     delayMiddle,
-                        router)
+                            router)
 
     // Stripe Native API proxy with ip rotation
     app.use('/proxy', 

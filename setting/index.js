@@ -1,6 +1,6 @@
+const solveDelays    = require('./solveDelays.js')
 const solveTextLists = require('./solveTextLists.js')
 const solveStripeAcc = require('./solveStripeAcc.js')
-const solveDelays = require('./solveDelays.js')
 
 const $e = process.env,
       $g = global,
@@ -14,13 +14,6 @@ const users = {
 const userProxies = {
     user: 'EaiGalerinha',
     pass: 'cursoir3442'
-}
-
-const rateLimit = {
-    max: Number($e.RATE_LIMIT_MAX),
-    windowMs:  Number($e.RATE_LIMIT_MS) * 60 * 1000,
-    message: 'Too many requests from this IP. Retry after ' + $e.RATE_LIMIT_MS + ' mins.',
-    standardHeaders: true
 }
 
 let emap  = solveTextLists.emap,
@@ -50,8 +43,7 @@ module.exports = {
                 maxCashout:      Number($e.MAX_CASHOUT),
                 addspChance:     Number($e.ADDR_SP_CHANCE),
                 checkFlvChance:  Number($e.CHECK_FLV_CHANCE),
-                userProxies,
-                rateLimit
+                userProxies
             }
         })
     }
