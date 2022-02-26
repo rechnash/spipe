@@ -16,6 +16,15 @@ function pickHttpProxy (svOrClt) {
 
     let proxy;
 
+    // exceptional condition...
+    // it's temp provision
+    if ($e.DEP_MODE === 'live' &&
+            svOrClt === 'client') {
+        console.log('   ...picking rotating proxy from gate2.')
+        return `http://${$e.PXY_GATE_USER}:${$e.PXY_GATE_PASS}@gate2.proxyfuel.com:2000`
+    }
+
+    // else...
     if (svOrClt === 'client') {
         console.log('   $g.clientPlistRotator.counter:', 
                         $g.clientPlistRotator.counter)

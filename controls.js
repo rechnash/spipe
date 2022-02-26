@@ -237,7 +237,6 @@ module.exports = {
                     url: $c.apiUrl + '/charges',
                     method: 'post',
                     json: true, 
-                    host: '',
                     rejectUnauthorized: false,
                     qs: chargeData,
                     data: chargeData,
