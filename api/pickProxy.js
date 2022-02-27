@@ -47,7 +47,7 @@ async function getProxyFlow () {
 
         let res = await request({
             json: true,
-            url: `https://api.proxyflow.io/v1/proxy/random?token=${$e.PXYFLW_KEY}&protocol=http&country=BR`
+            url: `https://api.proxyflow.io/v1/proxy/random?token=${$e.PXYFLW_KEY}&maxRtt=${$e.PXYFLW_RTT}&protocol=http&country=BR`
         })
 
         return res;
