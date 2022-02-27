@@ -65,14 +65,14 @@ function parseCheckError (error, ops) {
             }
         }
 
-        if (eobj.numCode === 500) {
-            return results['scape'];
-        }
-
         return results[check]
     }
 
     function checkErrorObject (errObj) {
+
+        if (errObj.numCode === 500) {
+            return 'escape';
+        }
 
         const errvals = [
             errObj.type         || 'undefined',
