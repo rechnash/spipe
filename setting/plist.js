@@ -4,26 +4,21 @@ const plist = {
 
     live: {
 
-        client: 'proxyflow.io - BR rotating)',
+        client: 'proxyflow.io - BR rotating - profile: live)',
                 
         server: [
-            '104.129.245.134:1490',
-            '104.129.245.133:1490',
-            '104.129.245.132:1490'
+            '213.156.143.163:1490'
         ]
     },
 
     test: {
+
+        client: 'proxyflow.io - BR rotating - profile: test)',
         
         server: [
             '213.156.143.163:1490'
-        ],
-
-        client: [
-            '196.242.89.131:1490',
-            '104.129.245.131:1490',
-            '104.129.245.160:1490'
         ]
+
     }
 }
 
