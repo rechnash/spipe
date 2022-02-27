@@ -31,7 +31,12 @@ async function setapp () {
     console.log('   - $e.NODE_ENV', `"${$e.NODE_ENV}"`)
     console.log('   - $e.DEP_MODE', `"${$e.DEP_MODE}"`, '\n')
 
-    console.log('   - $c.delays.rate', `"${$c.delays.rate}"`)
+    console.log('   - $e.PXYFLW_RTT', `"${$e.PXYFLW_RTT}"`)
+    console.log('   - $e.DELAY_RATE_TEST', `"${$e.DELAY_RATE_TEST}"`)
+    console.log('   - $e.DELAY_RATE_LIVE', `"${$e.DELAY_RATE_LIVE}"`)
+    console.log('   - $e.ADDR_SP_CHANCE', `"${$e.ADDR_SP_CHANCE}"`)
+    console.log('   - $e.CHECK_FLV_CHANCE', `"${$e.CHECK_FLV_CHANCE}"`)
+
     console.log('\n', '   - $plist.client', $plist.client)
     console.log('   - $plist.server', $plist.server, '\n')
     
