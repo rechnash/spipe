@@ -22,6 +22,7 @@ module.exports = {
             const $sk        = $c.stripeAcc.sk,
                   $pk        = $c.stripeAcc.pk,
                   $sDomain   = $c.stripeAcc.domain,
+                  $sURL      = $c.stripeAcc.url,
                   $uaClient  = $g.pickUserAgent('client'),
                   $uaServer  = $g.pickUserAgent('server'),
                   $pxClient  = await $g.pickProxy('client'),
@@ -39,7 +40,8 @@ module.exports = {
             console.log(
                     '\n     => $sk',        $sk, 
                     '\n     => $pk',        $pk,
-                    '\n     => $sDomain',   $sDomain,     
+                    '\n     => $sDomain',   $sDomain,
+                    '\n     => $sURL',      $sURL,
                     '\n     => $uaClient',  $uaClient,
                     '\n     => $uaServer',  $uaServer,
                     '\n     => $pxClient',  $pxClient, 
@@ -224,6 +226,7 @@ module.exports = {
                     qs: tokenData,
                     proxy: $pxClient,
                     headers: {
+                        'Referer': $sDomain,
                         'Keep-Alive': 'true',
                         'User-Agent': $uaClient,
                         'Authorization': 'Bearer ' + $pk

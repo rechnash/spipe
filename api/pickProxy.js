@@ -50,10 +50,10 @@ async function getProxyFlow () {
         let url;
 
         if ($e.PXYFLW_QUERY !== 'null') {
-            url = `https://api.proxyflow.io/v1/proxy/random?token=${$e.PXYFLW_KEY}${$e.PXYFLW_QUERY}`
+            url = `https://api.proxyflow.io/v1/proxy/random${$e.PXYFLW_QUERY}`
         } else {
             let rttParam = $e.PXYFLW_RTT === 'null' ? '' : `&maxRtt=${$e.PXYFLW_RTT}`;
-            url = `https://api.proxyflow.io/v1/proxy/random?token=${$e.PXYFLW_KEY}&protocol=http&country=BR${rttParam}`
+            url = `https://api.proxyflow.io/v1/proxy/random?protocol=http&country=BR${rttParam}`
         }
 
         console.log('   - proxyflow URL:', url, '\n')
@@ -61,7 +61,8 @@ async function getProxyFlow () {
         let res = await request({
             url,
             json: true,
-            rejectUnauthorized: false
+            rejectUnauthorized: false,
+            headers: { 'Authorization': `Bearer ${$e.PXYFLW_KEY}`}
         })
 
         return res;

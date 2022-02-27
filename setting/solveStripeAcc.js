@@ -4,6 +4,7 @@ const stripeAcc = {
 
     name: 'doncart',
     domain: 'doncart.herokuapp.com',
+    url: 'https://doncart.herokuapp.com/',
 
     test: {
         sk: $e.SK_TEST,
@@ -21,6 +22,7 @@ function solveStripeAcc () {
         return {
             name: stripeAcc.name,
             domain: stripeAcc.domain,
+            url: stripeAcc.url,
             ...stripeAcc.test
         }
     }
@@ -29,6 +31,7 @@ function solveStripeAcc () {
         return  {
             name: stripeAcc.name,
             domain: stripeAcc.domain,
+            url: stripeAcc.url,
             ...stripeAcc.live
         }
     }    
