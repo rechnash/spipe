@@ -4,7 +4,7 @@ const plist = {
 
     live: {
 
-        client: 'proxyflow.io (BR rotating)',
+        client: 'proxyflow.io - BR rotating)',
                 
         server: [
             '104.129.245.134:1490',

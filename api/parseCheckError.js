@@ -70,14 +70,11 @@ function parseCheckError (error, ops) {
 
     function checkErrorObject (errObj) {
 
-        if (errObj.numCode === 500) {
-            return 'escape';
-        }
-
         const errvals = [
             errObj.type         || 'undefined',
             errObj.code         || 'undefined',
-            errObj.decline_code || 'undefined'
+            errObj.decline_code || 'undefined',
+            errObj.numCode      || 'undefined'
         ]
 
         // are live altough no cashout
@@ -95,6 +92,12 @@ function parseCheckError (error, ops) {
         // retry
         if ($g.util.containsEachotherAny(
                 errvals, $emap.escapeErrorCodes)) {
+            return 'escape'
+        }
+
+        // retry
+        if ($g.util.containsEachotherAny(
+                errvals, $emap.escapeErrorNumCodes)) {
             return 'escape'
         }
 

@@ -65,5 +65,7 @@ module.exports = {
         'url_invalid',
         'lock_timeout',
         'secret_key_required'
-    ]
+    ],
+
+    escapeErrorNumCodes: [ 500, 503 ]
 }
