@@ -60,8 +60,7 @@ async function getProxyFlow () {
 
         let res = await request({
             url,
-            json: true,
-            headers: { 'Keep-Alive' : 'true'}
+            json: true
         })
 
         return res;
