@@ -226,7 +226,7 @@ module.exports = {
                     qs: tokenData,
                     proxy: $pxClient,
                     headers: {
-                        'Referer': $sDomain,
+                        'Referer': $sURL,
                         'Keep-Alive': 'true',
                         'User-Agent': $uaClient,
                         'Authorization': 'Bearer ' + $pk
