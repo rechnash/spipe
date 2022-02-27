@@ -21,7 +21,11 @@ function pickHttpProxy (svOrClt) {
     if ($e.DEP_MODE === 'live' &&
             svOrClt === 'client') {
         console.log('   ...picking rotating proxy from gate2.')
-        return `http://${$e.PXY_GATE_USER}:${$e.PXY_GATE_PASS}@gate2.proxyfuel.com:2000`
+        let prot = $e.PXY_GATE_PROT, port;
+        if (prot === 'socks5') port = '3000';
+        if (prot === 'http' || 'https') port = '2000';
+        else throw new Error('   * Invalid $e.PXY_GATE_PROT')
+        return `${prot}://${$e.PXY_GATE_USER}:${$e.PXY_GATE_PASS}@gate2.proxyfuel.com:${port}`
     }
 
     // else...

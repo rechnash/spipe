@@ -29,7 +29,8 @@ async function setapp () {
     console.log('\n   * Starting S-PIPE \n')
 
     console.log('   - $e.NODE_ENV', `"${$e.NODE_ENV}"`)
-    console.log('   - $e.DEP_MODE', `"${$e.DEP_MODE}"`, '\n')
+    console.log('   - $e.DEP_MODE', `"${$e.DEP_MODE}"`)
+    console.log('   - $e.PXY_GATE_PROT', `"${$e.PXY_GATE_PROT}"`, '\n')
 
     console.log('   - $c.delays.rate', `"${$c.delays.rate}"`)
     console.log('   - $plist.client', $plist.client)
