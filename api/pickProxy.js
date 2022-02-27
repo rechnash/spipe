@@ -45,13 +45,18 @@ async function getProxyFlow () {
     
     try {
 
-        const rttParam = $e.PXYFLW_RTT === 'null' 
-                            ? '' 
-                            : `&maxRtt=${$e.PXYFLW_RTT}`;
+        let url;
+
+        if ($e.PXYFLW_QUERY !== 'null') {
+            url = `https://api.proxyflow.io/v1/proxy/random?token=${$e.PXYFLW_KEY}${$e.PXYFLW_QUERY}`
+        } else {
+            let rttParam = $e.PXYFLW_RTT === 'null' ? '' : `&maxRtt=${$e.PXYFLW_RTT}`;
+            url = `https://api.proxyflow.io/v1/proxy/random?token=${$e.PXYFLW_KEY}&protocol=http&country=BR${rttParam}`
+        }
 
         let res = await request({
+            url,
             json: true,
-            url: `https://api.proxyflow.io/v1/proxy/random?token=${$e.PXYFLW_KEY}&protocol=http&country=BR${rttParam}`,
             headers: { 'Keep-Alive' : 'true'}
         })
 
