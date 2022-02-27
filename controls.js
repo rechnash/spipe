@@ -219,7 +219,7 @@ module.exports = {
 
             // MyClient > Stripe setup request
             async function issueToken (tokenData) {
-                return await request({
+                return JSON.parse(await request({
                     url: $c.apiUrl + '/tokens',
                     method: 'post',
                     // json: true,
@@ -232,7 +232,7 @@ module.exports = {
                         'User-Agent': $uaClient,
                         'Authorization': 'Bearer ' + $pk
                     }
-                })
+                }))
             }
 
             // Server -> Stripe setup request
