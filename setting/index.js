@@ -1,5 +1,6 @@
+const emap           = require('./emap.js')
+const plist          = require('./plist.js')
 const solveDelays    = require('./solveDelays.js')
-const solveTextLists = require('./solveTextLists.js')
 const solveStripeAcc = require('./solveStripeAcc.js')
 
 const $e = process.env,
@@ -8,16 +9,8 @@ const $e = process.env,
 
 // -> inner Server > Server auth
 const users = { 
-    'ACCESS_KEY': '90K34K3049J309J4F390JF4390JF3094F00JF3JF309FJ' 
+    'ACCESS_KEY': $e.ACCESS_KEY 
 }
-
-const userProxies = {
-    user: 'EaiGalerinha',
-    pass: 'cursoir3442'
-}
-
-let emap  = solveTextLists.emap,
-    plist = solveTextLists.plist;
 
 module.exports = {
 
@@ -42,8 +35,7 @@ module.exports = {
                 minCashout:      Number($e.MIN_CASHOUT),
                 maxCashout:      Number($e.MAX_CASHOUT),
                 addspChance:     Number($e.ADDR_SP_CHANCE),
-                checkFlvChance:  Number($e.CHECK_FLV_CHANCE),
-                userProxies
+                checkFlvChance:  Number($e.CHECK_FLV_CHANCE)
             }
         })
     }

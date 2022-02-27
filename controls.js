@@ -24,8 +24,8 @@ module.exports = {
                   $sDomain   = $c.stripeAcc.domain,
                   $uaClient  = $g.pickUserAgent('client'),
                   $uaServer  = $g.pickUserAgent('server'),
-                  $pxClient  = $g.pickHttpProxy('client'),
-                  $pxServer  = $g.pickHttpProxy('server');
+                  $pxClient  = await $g.pickProxy('client'),
+                  $pxServer  = await $g.pickProxy('server');
 
             const env = $e.NODE_ENV,
                   mode = $e.DEP_MODE,
@@ -44,7 +44,7 @@ module.exports = {
                     '\n     => $uaServer',  $uaServer,
                     '\n     => $pxClient',  $pxClient, 
                     '\n     => $pxServer',  $pxServer, '\n')
-
+            
             console.log(
                     '\n     => env',            env, 
                     '\n     => mode',           mode, 
@@ -239,7 +239,6 @@ module.exports = {
                     json: true, 
                     rejectUnauthorized: false,
                     qs: chargeData,
-                    data: chargeData,
                     proxy: $pxServer,
                     headers: {
                         'Host': $sDomain,
