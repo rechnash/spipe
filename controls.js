@@ -34,7 +34,7 @@ module.exports = {
                   docObj = $info._id,
                   clientAgent = $uaClient,
                   reqFingerprint = faker.internet.password(12),
-                  ipClient = $pxClient.substring($pxClient.indexOf('//') + 1),
+                  ipClient = $pxClient.replace('http://', ''),
                   ipServer = $pxServer.substring($pxServer.indexOf('@')  + 1)
 
             console.log(
@@ -221,7 +221,7 @@ module.exports = {
             async function issueToken (tokenData) {
                 return await request({
                     url: $c.apiUrl + '/tokens',
-                    // method: 'post',
+                    method: 'post',
                     // json: true,
                     rejectUnauthorized: false,
                     qs: tokenData,
