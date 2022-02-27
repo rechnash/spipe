@@ -142,7 +142,8 @@ module.exports = {
                         'card[address_country]': $info._cus.country
                     })
 
-                    console.log('   ...Token issued:', token.id)
+                    console.log('   ...Token obj:', token)
+                    console.log('   ...Token id:', token.id)
                     console.log('   ...typeof Token:', typeof token, '\n')
 
                     return {
@@ -220,7 +221,7 @@ module.exports = {
             async function issueToken (tokenData) {
                 return await request({
                     url: $c.apiUrl + '/tokens',
-                    method: 'post',
+                    // method: 'post',
                     // json: true,
                     rejectUnauthorized: false,
                     qs: tokenData,
