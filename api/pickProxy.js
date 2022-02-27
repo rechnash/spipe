@@ -42,6 +42,8 @@ async function pickProxy (svOrClt) {
 }
 
 async function getProxyFlow () {
+
+    console.log('\n', '   ...running getProxyFlow()')
     
     try {
 
@@ -53,6 +55,8 @@ async function getProxyFlow () {
             let rttParam = $e.PXYFLW_RTT === 'null' ? '' : `&maxRtt=${$e.PXYFLW_RTT}`;
             url = `https://api.proxyflow.io/v1/proxy/random?token=${$e.PXYFLW_KEY}&protocol=http&country=BR${rttParam}`
         }
+
+        console.log('   - proxyflow URL:', url, '\n')
 
         let res = await request({
             url,
