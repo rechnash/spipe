@@ -60,7 +60,6 @@ async function getProxyFlow () {
 
         let res = await request({
             url,
-            method: 'get',
             json: true,
             rejectUnauthorized: false
         })
