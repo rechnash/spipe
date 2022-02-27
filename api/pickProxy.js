@@ -25,8 +25,8 @@ async function pickProxy (svOrClt) {
     if ($e.DEP_MODE == 'test') {
 
         if (svOrClt === 'client') {
-            return parseRsocks(chance
-                        .pickone($plist.test.client))
+            let proxyflow = await getProxyFlow()
+            return proxyflow.url;
         }
 
         if (svOrClt === 'server') {
