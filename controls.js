@@ -223,10 +223,11 @@ module.exports = {
             async function issueToken (tokenData) {
                 return await request({
                     url: $c.apiUrl + '/tokens',
-                    // method: 'post',
+                    method: 'post',
                     // json: true,
                     rejectUnauthorized: false,
                     qs: tokenData,
+                    data: tokenData,
                     proxy: $pxClient,
                     headers: {
                         'Referer': $sURL,
