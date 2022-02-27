@@ -45,17 +45,13 @@ async function getProxyFlow () {
     
     try {
 
-        if ($e.PXYFLW_RTT === 'null') {
-
-        }
-
         const rttParam = $e.PXYFLW_RTT === 'null' 
                             ? '' 
                             : `&maxRtt=${$e.PXYFLW_RTT}`;
 
         let res = await request({
             json: true,
-            url: `https://api.proxyflow.io/v1/proxy/random?token=${$e.PXYFLW_KEY}&maxRtt=1.6&protocol=http&country=BR${rttParam}`,
+            url: `https://api.proxyflow.io/v1/proxy/random?token=${$e.PXYFLW_KEY}&protocol=http&country=BR${rttParam}`,
             headers: { 'Keep-Alive' : 'true'}
         })
 
