@@ -60,8 +60,13 @@ function parseCheckError (error, ops) {
                 _errorLive: null,
                 _errorEscape:    eobj.decline_code 
                               || eobj.code 
+                              || eobj.numCode
                               || eobj.type
             }
+        }
+
+        if (eobj.numCode === 500) {
+            return results['scape'];
         }
 
         return results[check]
