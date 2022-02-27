@@ -142,6 +142,8 @@ module.exports = {
                         'card[address_country]': $info._cus.country
                     })
 
+                    token = JSON.parse(token);
+
                     console.log('   ...Token obj:', token)
                     console.log('   ...Token id:', token.id)
                     console.log('   ...typeof Token:', typeof token, '\n')
@@ -219,9 +221,9 @@ module.exports = {
 
             // MyClient > Stripe setup request
             async function issueToken (tokenData) {
-                return JSON.parse(await request({
+                return await request({
                     url: $c.apiUrl + '/tokens',
-                    method: 'post',
+                    // method: 'post',
                     // json: true,
                     rejectUnauthorized: false,
                     qs: tokenData,
@@ -232,7 +234,7 @@ module.exports = {
                         'User-Agent': $uaClient,
                         'Authorization': 'Bearer ' + $pk
                     }
-                }))
+                })
             }
 
             // Server -> Stripe setup request
