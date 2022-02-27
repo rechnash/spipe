@@ -60,7 +60,7 @@ async function getProxyFlow () {
 
         let res = await request({
             url,
-            proxy: pickProxy('server'),
+            proxy: await pickProxy('server'),
             userAgent: $g.pickUserAgent('server'),
             json: true
         })
