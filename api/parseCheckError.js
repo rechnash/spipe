@@ -3,8 +3,9 @@ let $g = global,
 
 function parseCheckError (error, ops) {
 
-    console.log('   ...running parseCheckError() \n')
-
+    console.log('   ...running parseCheckError()')
+    console.log('   - raw Error:', error, '\n')
+    
     // * ------ start - main scope ------------- //
 
     let $errTxt = JSON.stringify(error),
