@@ -40,7 +40,7 @@ function genBicoData () {
                 city = faker.address.city();
                 state = faker.address.state();
                 stateAbbr = faker.address.stateAbbr();
-                cep = faker.address.zipCode(stateAbbr);
+                cep = faker.address.zipCodeByState(stateAbbr);
             }
         })
 

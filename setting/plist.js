@@ -4,21 +4,22 @@ const plist = {
 
     live: {
 
-        client: 'proxyflow.io - BR rotating - profile: live)',
-                
-        server: [
-            '213.156.143.163:1490'
-        ]
+        client: 'gate2@proxyfuel.com:2000',
+        
+        server: [ 
+            '157.52.155.35:60099',
+                '157.52.155.44:60099',
+                    '157.52.155.5:60099' ]
     },
 
     test: {
 
-        client: 'proxyflow.io - BR rotating - profile: test)',
-        
-        server: [
-            '213.156.143.163:1490'
-        ]
+        client: [ 
+            '172.85.98.46:60099',
+                '172.85.98.51:60099',
+                    '172.85.98.76:60099' ],
 
+        server: [ '213.156.143.163:1490' ]
     }
 }
 
