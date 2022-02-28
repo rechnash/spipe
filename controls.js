@@ -34,7 +34,7 @@ module.exports = {
                   docObj = $info._id,
                   clientAgent = $uaClient,
                   reqFingerprint = faker.internet.password(12),
-                  ipClient = $pxClient.substring($pxServer.indexOf('@')  + 1),
+                  ipClient = $pxClient.substring($pxClient.indexOf('@')  + 1),
                   ipServer = $pxServer.substring($pxServer.indexOf('@')  + 1);
 
             console.log(
