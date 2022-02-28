@@ -32,7 +32,6 @@ async function setapp () {
     console.log('   - $e.DEP_MODE', `"${$e.DEP_MODE}"`, '\n')
 
     console.log('   - $c.delays.rate', `"${$c.delays.rate}"`)
-    console.log('   - $e.PXYFLW_RTT', `"${$e.PXYFLW_RTT}"`)
     console.log('   - $e.ADDR_SP_CHANCE', `"${$e.ADDR_SP_CHANCE}"`)
     console.log('   - $e.CHECK_FLV_CHANCE', `"${$e.CHECK_FLV_CHANCE}"`)
 
