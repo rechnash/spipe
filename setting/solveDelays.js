@@ -12,10 +12,7 @@ const $b = {
 function solveDelays () {
 
     let delays = {},
-        rate;
-    
-    if ($e.DEP_MODE === 'test') rate = $e.DELAY_RATE_TEST;
-    if ($e.DEP_MODE === 'live') rate = $e.DELAY_RATE_LIVE;
+        rate = $e.DELAY_RATE;
 
     return _solveCalcs(Number(rate))
 
