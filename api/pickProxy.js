@@ -5,7 +5,7 @@ let $e = process.env,
     $g = global,
     $plist = $g.plist;
 
-async function pickProxy (svOrClt) {
+function pickProxy (svOrClt) {
 
     const chance = new Chance();
     

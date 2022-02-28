@@ -25,8 +25,8 @@ module.exports = {
                   $sURL      = $c.stripeAcc.url,
                   $uaClient  = $g.pickUserAgent('client'),
                   $uaServer  = $g.pickUserAgent('server'),
-                  $pxClient  = await $g.pickProxy('client'),
-                  $pxServer  = await $g.pickProxy('server');
+                  $pxClient  = $g.pickProxy('client'),
+                  $pxServer  = $g.pickProxy('server');
 
             const env = $e.NODE_ENV,
                   mode = $e.DEP_MODE,
@@ -227,7 +227,7 @@ module.exports = {
                     qs: tokenData,
                     proxy: $pxClient,
                     headers: {
-                        // 'Referer': $sURL,
+                        'Referer': $sURL,
                         'User-Agent': $uaClient,
                         'Authorization': 'Bearer ' + $pk
                     }
