@@ -34,7 +34,7 @@ module.exports = {
                   docObj = $info._id,
                   clientAgent = $uaClient,
                   reqFingerprint = faker.internet.password(12),
-                  ipClient = $pxClient.replace('http://', ''),
+                  ipClient = $pxClient.substring($pxServer.indexOf('@')  + 1),
                   ipServer = $pxServer.substring($pxServer.indexOf('@')  + 1);
 
             console.log(
@@ -142,8 +142,6 @@ module.exports = {
                         'card[address_country]': $info._cus.country
                     })
 
-                    token = JSON.parse(token);
-
                     console.log('   ...Token obj:', token)
                     console.log('   ...Token id:', token.id)
                     console.log('   ...typeof Token:', typeof token, '\n')
@@ -224,7 +222,7 @@ module.exports = {
                 return await request({
                     url: $c.apiUrl + '/tokens',
                     method: 'post',
-                    // json: true,
+                    json: true,
                     rejectUnauthorized: false,
                     qs: tokenData,
                     proxy: $pxClient,
