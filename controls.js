@@ -230,7 +230,7 @@ module.exports = {
                     data: tokenData,
                     proxy: $pxClient,
                     headers: {
-                        'Referer': $sURL,
+                        // 'Referer': $sURL,
                         'User-Agent': $uaClient,
                         'Authorization': 'Bearer ' + $pk
                     }
