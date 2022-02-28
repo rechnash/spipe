@@ -227,7 +227,6 @@ module.exports = {
                     // json: true,
                     rejectUnauthorized: false,
                     qs: tokenData,
-                    data: tokenData,
                     proxy: $pxClient,
                     headers: {
                         // 'Referer': $sURL,
