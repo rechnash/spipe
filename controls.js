@@ -231,7 +231,6 @@ module.exports = {
                     proxy: $pxClient,
                     headers: {
                         'Referer': $sURL,
-                        'Keep-Alive': 'timeout=35, max=100',
                         'User-Agent': $uaClient,
                         'Authorization': 'Bearer ' + $pk
                     }
@@ -249,7 +248,6 @@ module.exports = {
                     proxy: $pxServer,
                     headers: {
                         'Host': $sDomain,
-                        'Keep-Alive': 'timeout=35, max=100',
                         'User-Agent': $uaServer,
                         'Authorization': 'Bearer ' + $sk
                     }
