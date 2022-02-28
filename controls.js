@@ -1,5 +1,6 @@
 const request = require('request-promise')
 const { faker } = require('@faker-js/faker')
+const socks5HttpAgent = require('socks5-http-client/lib/Agent')
 
 let $e = process.env,
     $g = global,

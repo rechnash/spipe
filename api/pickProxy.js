@@ -10,11 +10,11 @@ function pickProxy (svOrClt) {
     const chance = new Chance();
     
     if (svOrClt === 'client') {
-        return `http://${chance.pickone($plist.client)}`
+        return `${chance.pickone($plist.client)}`
     }
 
     if (svOrClt === 'server') {
-        return `http://${chance.pickone($plist.server)}`
+        return `${chance.pickone($plist.server)}`
     }
 }
 
